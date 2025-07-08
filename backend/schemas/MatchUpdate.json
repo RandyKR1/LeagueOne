@@ -1,0 +1,36 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://our.match.com/matchUpdate.schema.json",
+    "type": "object",
+    "properties": {
+    "leagueId": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "eventType": {
+      "type": "string",
+      "enum": ["Friendly", "League", "Tournament", "Final"]
+    },
+    "eventLocation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "team1": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "team2": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "required": [
+    "eventType",
+    "eventLocation",
+    "team1",
+    "team2"
+  ],
+  "additionalProperties": true
+  }
+  

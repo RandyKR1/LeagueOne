@@ -1,0 +1,505 @@
+/* Nav.css */
+
+#root {
+  height: 100vh;
+  width: 100vw;
+  transform: translate(-8px, -8px);
+  overflow: hidden;
+  font-family: "Kanit", sans-serif;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  background: #00004e;
+}
+
+button a{
+  color: white;
+  text-decoration: none;
+}
+
+body{
+  overflow: hidden;
+}
+
+ul{
+  list-style: none;
+}
+
+a{
+  text-decoration: none;
+  color: #00004e;
+}
+
+.button{
+  font-family: "Kanit", sans-serif;
+  margin: 15px 2px 0px 2px;
+  border-radius: 8px;
+  background: #00004e;
+  border: none;
+  cursor: pointer;
+  transition: ease-in .15s;
+  color: white;
+}
+
+.button:hover{
+  box-shadow: 0px 0px 15px -4px navy;
+}
+
+.button-delete{
+  font-family: "Kanit", sans-serif;
+  margin-top: 15%;
+  border-radius: 8px;
+  background: rgb(245, 26, 26);
+  border: none;
+  cursor: pointer;
+  transition: ease-in .15s;
+  color: #ffffff;
+}
+
+.button-delete:hover{
+  box-shadow: 0px 0px 15px -4px red;
+}
+
+.button-remove{
+  font-family: "Kanit", sans-serif;
+  margin-left: 15px;
+  background: red;
+  border: none;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: .75em;
+}
+
+.button-remove:hover{
+  box-shadow: 0px 0px 15px -4px red;
+  cursor: pointer;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 45px;
+  justify-items: center;
+}
+
+/* Optional: If you want to align the buttons inside the grid items */
+.actions .button, .actions .button-delete {
+  width: 125%;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  font-size: medium;
+  padding: 2px;
+}
+
+
+.container {
+  width: 90vw;
+  height: 80vh;
+  transform: translateY(45px);
+  margin: auto;
+  padding: 20px;
+  background-color: #cfecff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: scroll;
+  scrollbar-width: none;
+}
+
+h2{
+  color: #00004e;
+}
+
+h4{
+  font-size: 30px;
+  margin: 0;
+}
+
+.container h2 {
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.container h1 {
+  margin: 0;
+  width: 100%;
+  font-size: 46px;
+  padding-bottom: 14px;
+  color: #00004e
+}
+
+.container p {
+  font-size: 20px;
+  margin: 5px;
+  color: #00004e;
+}
+
+
+.container .details {
+  margin-bottom: 20px;
+}
+
+.container .actions {
+  margin-top: 20px;
+}
+
+.header-list{
+  display: flex;
+  width: 100%;
+  height: 15%;
+}
+.header-list-display{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  color: #00004e;
+}
+
+.header-list-display p{
+  font-size: 2.5em;
+}
+
+.header-list-display a{
+  font-size: 1.25em;
+  border: #00004e 2px solid;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: white;
+  background: #00004e;
+}
+
+.list {
+  padding: 0;
+  margin: 5px 0 0 0;
+}
+
+.list-container{
+  scrollbar-width: none;
+  align-content: flex-start;
+  height: 85%;
+  width: 100%;
+  overflow: scroll;
+  background: #cfecff;
+}
+
+
+.list-display-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #00004e
+}
+
+.list-display-container h3 {
+  font-size: 25px;
+  margin-top: 12px;
+  margin-bottom: 0px;
+}
+
+.list-display{
+  width: 50%;
+}
+
+.list li {
+  margin-bottom: 10px;
+  color: #00004e;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container input{
+  padding: 3% 10%;
+  font-family: "Kanit", sans-serif;
+  text-align: center;
+}
+
+.form-container select{
+  padding: 3% 18%;
+  font-family: "Kanit", sans-serif;
+}
+
+/* HOME STYLES */
+
+.home-container {
+  width: 90vw;
+  height: 80vh;
+  transform: translateY(45px);
+  margin: auto;
+  padding: 20px;
+  background-color: #00004e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #00004e;
+}
+
+.home-display-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 20px;
+  max-width: 800px;
+  border-radius: 5px;
+  margin: 0 auto;
+  padding: 20px;
+  overflow: scroll;
+  scrollbar-width: none;
+}
+
+.home-display {
+  padding: 20px;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  overflow: scroll;
+  scrollbar-width: none;
+}
+
+.home-auth-wrapper a{
+  font-size: 20px;
+}
+
+.home-auth-wrapper p{
+  font-size: 18px;
+  margin-bottom: 0px;
+}
+
+.home-h1{
+  color: #f2f2f2;
+  font-size: 3.5em;
+  margin-bottom: 0;
+  margin-top: 0;
+  transform: translateY(-30px);
+}
+
+
+/* LEAGUE DETAIL STYLING */ 
+
+.league-container {
+  width: 90vw;
+  height: 80vh;
+  transform: translateY(45px);
+  margin: auto;
+  padding: 20px;
+  background-color: #cfecff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: scroll;
+  scrollbar-width: none;
+  color: #00004e;
+}
+
+.teams-list{
+  margin-top: 20px;
+}
+
+.league-display-container{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.league-display-container button{
+  padding: 10px;
+}
+
+.league-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  margin-top: 10px;
+}
+
+.league-display-container h3{
+  margin: 0;
+}
+
+.standings{
+  display: flex;
+  flex-direction: column;
+  background-color: #cfecff;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 5px;
+  padding: 25px;
+}
+
+/* TEAM STYLING */
+
+
+
+/* MATCH STYLING */
+
+.container-match{
+  width: 100%;
+  transform: translateY(-80px);
+}
+
+.container-match-p{
+  font-size: 1.5em;
+}
+
+.result-container{
+  transform: translateY(-70px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 20%;
+}
+
+.result-container-display{
+  display: flex;
+  align-items: center;
+  height: 50%;
+}
+
+.result-container-display p {
+  font-weight: 700;
+  font-size: 1.75em;
+  margin: 0;
+}
+
+.header-match{
+  transform: translateY(-90px);
+  display: flex;
+  width: 100%;
+  height: 15%;
+}
+
+.header-match-display{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  color: #00004e;
+}
+
+.header-match-display p{
+  font-size: 2.5em;
+}
+
+.header-match-display a{
+  font-size: 1.25em;
+  border: #00004e 2px solid;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: white;
+  background: #00004e;
+}
+
+.match-list-display{
+  margin-bottom: 10px;
+  color: #00004e;
+  background-color: white;
+  border-radius: 50px;
+  border: 5px solid;
+}
+
+.match-list-display p{
+  margin: 5px;
+}
+
+/* .actions-match-detail{
+
+} */
+
+
+/* NAV STYLING */
+
+nav {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #00004e;
+  color: white;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.nav ul {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav ul li {
+  margin-right: 20px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  margin-right: 30px;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+.nav-logout a {
+  color: red;
+  font-weight: bold;
+}
+
+.nav-logout a:hover {
+  text-decoration: underline;
+}
+
+
+/* ALERT STYLING */
+
+.alert-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: red;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+.alert-message {
+  margin: 0;
+}
