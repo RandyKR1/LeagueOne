@@ -18,7 +18,8 @@
   },
   "scripts": {
     "test": "NODE_ENV=test jest --runInBand",
-    "seed": "node seeds/seed.js"
+    "seed": "node seeds/seed.js",
+    "server": "node server.js"
   },
   "devDependencies": {
     "jest": "^29.7.0",
