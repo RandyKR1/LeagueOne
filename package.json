@@ -13,5 +13,8 @@
   "description": "",
   "devDependencies": {
     "concurrently": "^9.2.0"
+  },
+  "dependencies": {
+    "tree": "^0.1.3"
   }
 }
