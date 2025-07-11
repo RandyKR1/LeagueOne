@@ -1,0 +1,147 @@
+.
+├── .gitignore
+├── backend
+│   ├── .env
+│   ├── .gitignore
+│   ├── README.md
+│   ├── app.js
+│   ├── config
+│   │   ├── config.js
+│   │   └── db.js
+│   ├── expressError.js
+│   ├── helpers
+│   │   ├── tokens.js
+│   │   └── updateStandings.js
+│   ├── jest.config.js
+│   ├── middleware
+│   │   ├── auth.js
+│   │   └── validateSchema.js
+│   ├── models
+│   │   ├── MatchLeague.js
+│   │   ├── MatchTeams.js
+│   │   ├── TeamLeagues.js
+│   │   ├── TeamPlayers.js
+│   │   ├── index.js
+│   │   ├── league.js
+│   │   ├── match.js
+│   │   ├── standings.js
+│   │   ├── team.js
+│   │   └── user.js
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── routes
+│   │   ├── auth.js
+│   │   ├── league.js
+│   │   ├── match.js
+│   │   ├── team.js
+│   │   └── user.js
+│   ├── schemas
+│   │   ├── LeagueNew.json
+│   │   ├── LeagueSearch.json
+│   │   ├── LeagueUpdate.json
+│   │   ├── MatchNew.json
+│   │   ├── MatchSearch.json
+│   │   ├── MatchUpdate.json
+│   │   ├── SearchUser.json
+│   │   ├── TeamNew.json
+│   │   ├── TeamSearch.json
+│   │   ├── TeamUpdate.json
+│   │   ├── UserAuth.json
+│   │   ├── UserNew.json
+│   │   ├── UserRegister.json
+│   │   ├── UserSearch.json
+│   │   └── UserUpdate.json
+│   ├── seeds
+│   │   └── seed.js
+│   ├── server.js
+│   ├── test
+│   │   ├── auth-route.test.js
+│   │   ├── league-route.test.js
+│   │   ├── league.test.js
+│   │   ├── match-route.test.js
+│   │   ├── match.test.js
+│   │   ├── team-route.test.js
+│   │   ├── team.test.js
+│   │   ├── user-route.test.js
+│   │   └── user.test.js
+│   └── verifyHash.js
+├── codebase-structure.txt
+├── frontend
+│   ├── .env.production
+│   ├── .eslintrc.cjs
+│   ├── .gitignore
+│   ├── README.md
+│   ├── babel.config.json
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── src
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   ├── Auth
+│   │   │   ├── Login.jsx
+│   │   │   ├── SignUp.jsx
+│   │   │   └── UserContext.jsx
+│   │   ├── Common
+│   │   │   └── Alert.jsx
+│   │   ├── Home
+│   │   │   └── Home.jsx
+│   │   ├── Hooks
+│   │   │   ├── LocalStorage.jsx
+│   │   │   └── UseTimedMessage.jsx
+│   │   ├── Leagues
+│   │   │   ├── LeagueDetail.jsx
+│   │   │   ├── LeagueForm.jsx
+│   │   │   ├── LeagueJoin.jsx
+│   │   │   ├── LeagueList.jsx
+│   │   │   ├── LeagueStandings.jsx
+│   │   │   └── LeagueUpdateForm.jsx
+│   │   ├── Matches
+│   │   │   ├── MatchDetail.jsx
+│   │   │   ├── MatchForm.jsx
+│   │   │   ├── MatchList.jsx
+│   │   │   └── MatchUpdateForm.jsx
+│   │   ├── Routing
+│   │   │   ├── Nav.jsx
+│   │   │   ├── PrivateRoute.jsx
+│   │   │   └── Routing.jsx
+│   │   ├── Teams
+│   │   │   ├── TeamDetail.jsx
+│   │   │   ├── TeamForm.jsx
+│   │   │   ├── TeamJoin.jsx
+│   │   │   ├── TeamList.jsx
+│   │   │   └── TeamUpdateForm.jsx
+│   │   ├── Users
+│   │   │   ├── UserDetail.jsx
+│   │   │   ├── UserList.jsx
+│   │   │   └── UserUpdateForm.jsx
+│   │   ├── _tests_
+│   │   │   ├── Home.test.js
+│   │   │   ├── LeagueDetail.test.js
+│   │   │   ├── LeagueForm.test.js
+│   │   │   ├── LeagueList.test.js
+│   │   │   ├── LeagueUpdateForm.test.js
+│   │   │   ├── LegueJoinForm.test.js
+│   │   │   ├── MatchDetail.test.js
+│   │   │   ├── MatchForm.test.js
+│   │   │   ├── MatchList.test.js
+│   │   │   ├── MatchUpdate.test.js
+│   │   │   ├── Signup.test.js
+│   │   │   ├── TeamDetail.test.js
+│   │   │   ├── TeamForm.test.js
+│   │   │   ├── TeamJoin.test.js
+│   │   │   ├── TeamList.test.js
+│   │   │   ├── TeamUpdateForm.test.js
+│   │   │   ├── UserDetail.test.js
+│   │   │   ├── UserList.test.js
+│   │   │   └── UserUpdateForm.test.js
+│   │   ├── api.js
+│   │   ├── index.css
+│   │   ├── main.jsx
+│   │   └── setupTests.js
+│   └── vite.config.js
+├── notes.md
+├── package-lock.json
+└── package.json
+
+21 directories, 123 files
