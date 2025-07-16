@@ -10,11 +10,11 @@ const sequelize = new Sequelize(getDatabaseUri(), {
 });
 
 console.log("Database URI:", getDatabaseUri());
-console.log("Loaded ENV values:");
-console.log("Username:", process.env.DB_USERNAME);
-console.log("Password:", process.env.DB_PASSWORD);
-console.log("Host:", process.env.DB_HOST);
-console.log("Database:", process.env.DB_NAME);
+// console.log("Loaded ENV values:");
+// console.log("Username:", process.env.DB_USERNAME);
+// console.log("Password:", process.env.DB_PASSWORD);
+// console.log("Host:", process.env.DB_HOST);
+// console.log("Database:", process.env.DB_NAME);
 
 
 module.exports = {
