@@ -1,4 +1,4 @@
-require('dotenv').config();  // Load environment variables from .env file
+require('../config/loadEnv');
 
 const jwt = require("jsonwebtoken");  // Import the jsonwebtoken library for creating and verifying JWTs
 

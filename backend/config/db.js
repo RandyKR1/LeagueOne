@@ -1,18 +1,22 @@
-require('dotenv').config();  // Load environment variables from .env file
+require('./loadEnv');
 
 const { Client } = require('pg');  // Import the pg client for PostgreSQL
 const { getDatabaseUri } = require('./config');  // Import the getDatabaseUri function from the config module
 const { Sequelize } = require('sequelize');  // Import Sequelize for ORM
 
-// Initialize a new Sequelize instance with the database URI and options
 const sequelize = new Sequelize(getDatabaseUri(), {
   dialect: 'postgres',  // Specify the dialect for the database
   logging: true  // Enable logging for Sequelize
 });
 
-// Log the database URI for debugging purposes
 console.log("Database URI:", getDatabaseUri());
+console.log("Loaded ENV values:");
+console.log("Username:", process.env.DB_USERNAME);
+console.log("Password:", process.env.DB_PASSWORD);
+console.log("Host:", process.env.DB_HOST);
+console.log("Database:", process.env.DB_NAME);
+
 
 module.exports = {
-  sequelize  // Export the sequelize instance for use in other parts of the application
+  sequelize  
 };

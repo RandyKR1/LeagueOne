@@ -1,8 +1,5 @@
 .
-├── .gitignore
 ├── backend
-│   ├── .env
-│   ├── .gitignore
 │   ├── README.md
 │   ├── app.js
 │   ├── config
@@ -66,10 +63,9 @@
 │   │   └── user.test.js
 │   └── verifyHash.js
 ├── codebase-structure.txt
+├── config
+│   └── config.js -> ../backend/config/config.js
 ├── frontend
-│   ├── .env.production
-│   ├── .eslintrc.cjs
-│   ├── .gitignore
 │   ├── README.md
 │   ├── babel.config.json
 │   ├── index.html
@@ -140,8 +136,21 @@
 │   │   ├── main.jsx
 │   │   └── setupTests.js
 │   └── vite.config.js
+├── migrations
+│   ├── 20250715213534-create-users.js
+│   ├── 20250715214452-create-matchleagues.js
+│   ├── 20250715220242-create-matchteams.js
+│   ├── 20250715220546-create-teamleagues.js
+│   ├── 20250715220653-create-teamplayers.js
+│   ├── 20250715221207-create-leagues.js
+│   ├── 20250715221316-create-match.js
+│   ├── 20250715221428-create-standings.js
+│   └── 20250715221543-create-teams.js
+├── models
+│   └── index.js
 ├── notes.md
 ├── package-lock.json
-└── package.json
+├── package.json
+└── seeders
 
-21 directories, 123 files
+25 directories, 128 files

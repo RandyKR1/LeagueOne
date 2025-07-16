@@ -5,7 +5,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"npm run server --prefix backend\" \"npm run dev --prefix frontend\"",
-    "server": "node server.js"
+    "server": "node server.js",
+    "sequelize": "node -r dotenv/config ./node_modules/.bin/sequelize",
+    "db:create": "npm run sequelize -- db:create",
+    "db:migrate": "npm run sequelize -- db:migrate",
+    "db:seed": "npm run sequelize -- db:seed:all"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +19,11 @@
     "concurrently": "^9.2.0"
   },
   "dependencies": {
+    "dotenv": "^17.2.0",
+    "pg": "^8.16.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.7",
+    "sequelize-cli": "^6.6.3",
     "tree": "^0.1.3"
   }
 }
