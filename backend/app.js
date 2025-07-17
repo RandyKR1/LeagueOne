@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const { NotFoundError, BadRequestError, UnauthorizedError } = require("./expressError");
-require('dotenv').config({ path: '../.env' });
+require('./config/loadEnv');
 
 // Middleware
 app.use(cors());

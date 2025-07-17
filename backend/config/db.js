@@ -1,7 +1,5 @@
-require('./loadEnv');
-
 const { Client } = require('pg');  // Import the pg client for PostgreSQL
-const { getDatabaseUri } = require('./config');  // Import the getDatabaseUri function from the config module
+const { getDatabaseUri } = require('./dbUtils');  // Import the getDatabaseUri function from the config module
 const { Sequelize } = require('sequelize');  // Import Sequelize for ORM
 
 const sequelize = new Sequelize(getDatabaseUri(), {

@@ -1,6 +1,3 @@
-require('./loadEnv');
-
-
 module.exports = {
   development: {
     username: process.env.DB_USERNAME,
@@ -28,9 +25,5 @@ module.exports = {
   }
 };
 
-function getDatabaseUri() {
-  return `postgres://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}`;
-}
 
-module.exports.getDatabaseUri = getDatabaseUri;
 
