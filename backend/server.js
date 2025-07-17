@@ -1,9 +1,6 @@
 const app = require("./app");
-
 require('./config/loadEnv');
-
 const PORT = process.env.PORT || 3001;
-
 const { sequelize } = require('./config/db');
 
 sequelize.authenticate()
