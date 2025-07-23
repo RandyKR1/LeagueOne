@@ -68,28 +68,36 @@ module.exports = (sequelize, DataTypes) => {
   /**
    * Validate the given password against the stored hashed password.
    */
-  User.prototype.validPassword = function(password) {
+  User.prototype.validPassword = function (password) {
     return bcrypt.compareSync(password, this.password);
   };
 
   /**
    * Authenticate a user by their username and password.
    */
-  User.authenticate = async function(username, password) {
+  User.authenticate = async function (username, password) {
     const user = await User.findOne({ where: { username } });
-    if (user && user.validPassword(password)) {
-      return {
-        id: user.id,
-        username: user.username,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        isLeagueAdmin: user.isLeagueAdmin,
-        isTeamAdmin: user.isTeamAdmin,
-      };
+
+    if (!user) {
+      throw new UnauthorizedError("Invalid Username");
     }
-    throw new UnauthorizedError("Invalid username/password");
+
+    const isValid = await user.validPassword(password);
+    if (!isValid) {
+      throw new UnauthorizedError("Invalid Password");
+    }
+
+    return {
+      id: user.id,
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      isLeagueAdmin: user.isLeagueAdmin,
+      isTeamAdmin: user.isTeamAdmin,
+    };
   };
+
 
   // Define associations
   User.associate = (models) => {

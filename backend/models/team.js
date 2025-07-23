@@ -19,9 +19,6 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         len: [8, 100],
       },
-      set(value) {
-        this.setDataValue('password', bcrypt.hashSync(value, 10));
-      },
     },
     maxPlayers: {
       type: DataTypes.INTEGER,
@@ -38,12 +35,26 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     tableName: 'Teams',
+    hooks: {
+      beforeCreate: async (team) => {
+        if (team.password) {
+          const hashedPassword = await bcrypt.hash(team.password, 10);
+          team.password = hashedPassword;
+        }
+      },
+      beforeUpdate: async (team) => {
+        if (team.changed('password')) {
+          const hashedPassword = await bcrypt.hash(team.password, 10);
+          team.password = hashedPassword;
+        }
+      },
+    },
   });
 
   /**
    * Validate the given password against the stored hashed password.
    */
-  Team.prototype.validPassword = function(password) {
+  Team.prototype.validPassword = function (password) {
     return bcrypt.compareSync(password, this.password);
   };
 

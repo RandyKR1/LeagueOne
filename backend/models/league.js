@@ -19,10 +19,6 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         len: [8, 100],
       },
-      set(value) {
-        // Hash the password before saving it to the database
-        this.setDataValue('password', bcrypt.hashSync(value, 10));
-      },
     },
     maxTeams: {
       type: DataTypes.INTEGER,
@@ -57,10 +53,23 @@ module.exports = (sequelize, DataTypes) => {
     },
     drawPoints: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true 
     }
   }, {
-    tableName: 'Leagues',  // Specify the table name
+    tableName: 'Leagues',
+    hooks: {
+      beforeCreate: async (league) => {
+        if (league.password) {
+          league.password = await bcrypt.hash(league.password, 10);
+        }
+      },
+      beforeUpdate: async (league) => {
+        if (league.changed('password')) {
+          league.password = await bcrypt.hash(league.password, 10);
+        }
+      },
+    }
+
   });
 
   // Define associations
@@ -74,14 +83,14 @@ module.exports = (sequelize, DataTypes) => {
   /**
    * Get the standings for the league sorted by points in descending order.
    */
-  League.prototype.getSortedStandings = async function() {
+  League.prototype.getSortedStandings = async function () {
     return await this.getStandings({ order: [['points', 'DESC']] });
   };
 
   /**
    * Get the number of teams in the league.
    */
-  League.prototype.getNumberOfTeams = async function() {
+  League.prototype.getNumberOfTeams = async function () {
     const teams = await this.getTeams();
     return teams.length;
   };
@@ -89,14 +98,14 @@ module.exports = (sequelize, DataTypes) => {
   /**
    * Validate the given password against the hashed password stored in the database.
    */
-  League.prototype.validPassword = function(password) {
+  League.prototype.validPassword = function (password) {
     return bcrypt.compareSync(password, this.password);
   };
 
   /**
    * Find all leagues that match the given search filters.
    */
-  League.findAllWithFilters = async function(searchFilters = {}) {
+  League.findAllWithFilters = async function (searchFilters = {}) {
     const where = {};
 
     const { name, maxTeams } = searchFilters;
