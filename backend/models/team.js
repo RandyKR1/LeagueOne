@@ -42,9 +42,6 @@ module.exports = (sequelize, DataTypes) => {
 
   /**
    * Validate the given password against the stored hashed password.
-   *
-   * @param {string} password - The plain text password to validate.
-   * @returns {boolean} - Returns true if the password is valid, false otherwise.
    */
   Team.prototype.validPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
@@ -62,11 +59,6 @@ module.exports = (sequelize, DataTypes) => {
 
   /**
    * Find all teams with optional search filters.
-   *
-   * @param {Object} searchFilters - Filters to apply to the search.
-   * @param {string} [searchFilters.name] - Filter by team name.
-   * @param {number} [searchFilters.leagueId] - Filter by league ID.
-   * @returns {Promise<Array>} - A promise that resolves to an array of teams matching the filters.
    */
   Team.findAllWithFilters = async (searchFilters = {}) => {
     const where = {};

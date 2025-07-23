@@ -8,22 +8,110 @@ const { JWT_SECRET } = process.env; // Changed SECRET_KEY to JWT_SECRET
  * @param {Object} res - Express response object
  * @param {Function} next - Express next middleware function
  */
+function authenticateJWT(req, res, next) {const jwt = require('jsonwebtoken');
+const { User, League, Team } = require('../models');
+const { JWT_SECRET } = process.env;
+
+/**
+ * Middleware to authenticate JWT tokens
+ */
 function authenticateJWT(req, res, next) {
   try {
-    const authHeader = req.headers && req.headers.authorization;
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      const token = authHeader.substring(7); // Extract the token from the Authorization header
-      const decoded = jwt.verify(token, JWT_SECRET); // Verify the token with your secret key
-      req.user = decoded; // Set the decoded user information to req.user
-      console.log("User:", req.user);
+    const authHeader = req.headers?.authorization;
+    if (authHeader?.startsWith('Bearer ')) {
+      const token = authHeader.slice(7);
+      const decoded = jwt.verify(token, JWT_SECRET);
+      req.user = decoded;
+      console.log('User:', req.user);
     } else {
-      // User is not authenticated
       req.user = null;
     }
     next();
   } catch (err) {
     console.error('JWT verification error:', err.message);
-    next(err); // Pass error to error handling middleware
+    next(err);
+  }
+}
+
+/**
+ * Middleware to ensure user is logged in
+ */
+function ensureLoggedIn(req, res, next) {
+  if (!req.user) {
+    console.log('Unauthorized: User not authenticated');
+    return res.status(401).json({ error: 'Unauthorized: Missing or invalid token' });
+  }
+  next();
+}
+
+/**
+ * DRY helper to check admin ownership for League/Team/etc.
+ */
+function makeAdminChecker(Model, getIdFn, resourceName = 'resource') {
+  return async function (req, res, next) {
+    try {
+      const resourceId = getIdFn(req);
+      if (!resourceId || !req.user) {
+        return res.status(400).json({
+          error: `Missing ${resourceName} ID or user info`
+        });
+      }
+
+      const resource = await Model.findByPk(resourceId);
+      if (resource?.adminId === req.user.id) {
+        return next();
+      } else {
+        return res.status(403).json({
+          error: `Forbidden: Must be ${resourceName} admin`
+        });
+      }
+    } catch (err) {
+      console.error(`Admin check failed for ${resourceName}:`, err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+}
+
+// Reusable middleware using the helper
+const isLeagueAdmin = makeAdminChecker(
+  League,
+  req => req.params.leagueId || req.params.id,
+  'league'
+);
+
+const isTeamAdmin = makeAdminChecker(
+  Team,
+  req => req.params.teamId || req.params.id,
+  'team'
+);
+
+// Special case: checks admin for teamId in request body (used for league join)
+const isTeamAdminForLeagueJoin = makeAdminChecker(
+  Team,
+  req => req.body.teamId,
+  'team'
+);
+
+module.exports = {
+  authenticateJWT,
+  ensureLoggedIn,
+  isLeagueAdmin,
+  isTeamAdmin,
+  isTeamAdminForLeagueJoin
+};
+
+  try {
+    const authHeader = req.headers?.authorization;
+    if (authHeader?.startsWith('Bearer ')) {
+      const token = authHeader.slice(7).trim();
+      req.user = jwt.verify(token, process.env.JWT_SECRET);
+    } else {
+      req.user = null;
+    }
+    next();
+  } catch (err) {
+    console.error('JWT verification failed');
+    return res.status(401).json({ error: 'Invalid or expired token' });
   }
 }
 

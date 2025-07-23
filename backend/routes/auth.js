@@ -5,11 +5,6 @@ const { User } = require('../models');
 const { BadRequestError, UnauthorizedError } = require('../expressError');
 const { createToken } = require('../helpers/tokens');
 
-/**
- * @route POST /auth/register
- * @description Register a new user
- * @access Public
- */
 router.post('/register', async (req, res, next) => {
   try {
     const { username, password, firstName, lastName, email, isAdmin } = req.body;
@@ -27,11 +22,6 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
-/**
- * @route POST /auth/token
- * @description Authenticate a user and return a JWT token
- * @access Public
- */
 router.post('/token', async (req, res, next) => {
   try {
     const { username, password } = req.body;

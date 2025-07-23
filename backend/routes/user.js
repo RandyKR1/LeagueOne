@@ -11,11 +11,8 @@ const schemas = {
   UserSearch: require('../schemas/UserSearch.json'),
 };
 
-/**
- * @route GET /users
- * @description Get all users with optional filters
- * @access Private
- */
+
+/* Get all users with optional filters */
 router.get('/', authenticateJWT, ensureLoggedIn, async (req, res) => {
   try {
     validateSchema(req.query, schemas.UserSearch);
@@ -26,11 +23,8 @@ router.get('/', authenticateJWT, ensureLoggedIn, async (req, res) => {
   }
 });
 
-/**
- * @route GET /users/:username
- * @description Get a user by username
- * @access Private
- */
+
+/* Get a user by username */
 router.get('/:username', async (req, res) => {
   try {
     const user = await User.findOne({ 
@@ -63,11 +57,7 @@ router.get('/:username', async (req, res) => {
 });
 
 
-/**
- * @route PUT /users/:username
- * @description Update a user by username
- * @access Private
- */
+/* Update a user by username */
 router.put('/:username', authenticateJWT, ensureLoggedIn, async (req, res) => {
   try {
     validateSchema(req.body, schemas.UserUpdate);
@@ -83,11 +73,8 @@ router.put('/:username', authenticateJWT, ensureLoggedIn, async (req, res) => {
   }
 });
 
-/**
- * @route DELETE /users/:username
- * @description Delete a user by username
- * @access Private
- */
+
+/* Delete a user by username */
 router.delete('/:username', authenticateJWT, ensureLoggedIn, async (req, res) => {
   try {
     const user = await User.findOne({ where: { username: req.params.username } });

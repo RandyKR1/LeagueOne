@@ -51,10 +51,6 @@ module.exports = (sequelize, DataTypes) => {
 
   /**
    * Find a standing by league and team.
-   *
-   * @param {number} leagueId - The ID of the league.
-   * @param {number} teamId - The ID of the team.
-   * @returns {Promise<Object|null>} - A promise that resolves to the standing or null if not found.
    */
   Standing.findByLeagueAndTeam = async function(leagueId, teamId) {
     return await this.findOne({
@@ -64,9 +60,6 @@ module.exports = (sequelize, DataTypes) => {
 
   /**
    * Update the points of the standing.
-   *
-   * @param {number} points - The new points value.
-   * @returns {Promise<void>} - A promise that resolves when the points have been updated.
    */
   Standing.prototype.updatePoints = async function(points) {
     this.points = points;
@@ -75,11 +68,6 @@ module.exports = (sequelize, DataTypes) => {
 
   /**
    * Update the record of the standing.
-   *
-   * @param {number} wins - The new number of wins.
-   * @param {number} losses - The new number of losses.
-   * @param {number} draws - The new number of draws.
-   * @returns {Promise<void>} - A promise that resolves when the record has been updated.
    */
   Standing.prototype.updateRecord = async function(wins, losses, draws) {
     this.wins = wins;

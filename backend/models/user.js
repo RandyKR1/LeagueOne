@@ -67,9 +67,6 @@ module.exports = (sequelize, DataTypes) => {
 
   /**
    * Validate the given password against the stored hashed password.
-   *
-   * @param {string} password - The plain text password to validate.
-   * @returns {boolean} - Returns true if the password is valid, false otherwise.
    */
   User.prototype.validPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
@@ -77,11 +74,6 @@ module.exports = (sequelize, DataTypes) => {
 
   /**
    * Authenticate a user by their username and password.
-   *
-   * @param {string} username - The username of the user.
-   * @param {string} password - The plain text password of the user.
-   * @returns {Promise<Object>} - A promise that resolves to the user's details if authentication is successful.
-   * @throws {UnauthorizedError} - Throws an error if authentication fails.
    */
   User.authenticate = async function(username, password) {
     const user = await User.findOne({ where: { username } });
@@ -108,13 +100,6 @@ module.exports = (sequelize, DataTypes) => {
 
   /**
    * Find all users with optional search filters.
-   *
-   * @param {Object} searchFilters - Filters to apply to the search.
-   * @param {string} [searchFilters.firstName] - Filter by first name.
-   * @param {string} [searchFilters.lastName] - Filter by last name.
-   * @param {string} [searchFilters.email] - Filter by email.
-   * @param {string} [searchFilters.username] - Filter by username.
-   * @returns {Promise<Array>} - A promise that resolves to an array of users matching the filters.
    */
   User.findAllWithFilters = async (searchFilters = {}) => {
     const where = {};

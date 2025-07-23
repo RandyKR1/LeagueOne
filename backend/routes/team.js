@@ -10,11 +10,7 @@ const schemas = {
   TeamUpdate: require('../schemas/TeamUpdate.json')
 };
 
-/**
- * @route GET /teams
- * @description Get all teams
- * @access Private
- */
+/* Get all teams */
 router.get('/', authenticateJWT, ensureLoggedIn, async (req, res) => {
   try {
     const teams = await Team.findAll({
@@ -28,11 +24,8 @@ router.get('/', authenticateJWT, ensureLoggedIn, async (req, res) => {
   }
 });
 
-/**
- * @route GET /teams/:id
- * @description Get a team by ID
- * @access Private
- */
+
+/* Get a team by ID */
 router.get('/:id', authenticateJWT, ensureLoggedIn, async (req, res) => {
   const teamId = req.params.id;
 
@@ -56,12 +49,7 @@ router.get('/:id', authenticateJWT, ensureLoggedIn, async (req, res) => {
 });
 
 
-/**
- * @route POST /teams/create
- * @description Create a new team
- * @access Private
- */
-// Create a new team
+/* Create a new team */
 router.post('/create', authenticateJWT, ensureLoggedIn, async (req, res) => {
   const { name, password, maxPlayers } = req.body;
   const adminId = req.user.id; // Assuming req.user has the authenticated user's details
@@ -90,11 +78,8 @@ router.post('/create', authenticateJWT, ensureLoggedIn, async (req, res) => {
   }
 });
 
-/**
- * @route POST /teams/:id/join
- * @description Join a team
- * @access Private
- */
+
+/* Join a team */
 router.post('/:id/join', authenticateJWT, ensureLoggedIn, async (req, res) => {
   const teamId = req.params.id;
   const { password } = req.body;
@@ -140,11 +125,7 @@ router.post('/:id/join', authenticateJWT, ensureLoggedIn, async (req, res) => {
 });
 
 
-/**
- * @route POST /teams/:id/leave
- * @description Leave a team
- * @access Private
- */
+/* Leave a team */
 router.post('/:id/leave', authenticateJWT, ensureLoggedIn, async (req, res) => {
   const teamId = req.params.id;
   const userId = req.user.id; // Get the ID of the logged-in user
@@ -176,11 +157,7 @@ router.post('/:id/leave', authenticateJWT, ensureLoggedIn, async (req, res) => {
 });
 
 
-/**
- * @route PUT /teams/:id
- * @description Update a team
- * @access Private
- */
+/* Update a team */
 router.put('/:id', authenticateJWT, ensureLoggedIn, isTeamAdmin, async (req, res) => {
   try {
     validateSchema(req.body, schemas.TeamUpdate);
@@ -219,11 +196,8 @@ router.delete('/:id', authenticateJWT, ensureLoggedIn, isTeamAdmin, async (req, 
   }
 });
 
-/**
- * @route DELETE /teams/:teamId/players/:userId
- * @description Remove a player from a team (admin only)
- * @access Private
- */
+
+/* Remove a player from a team (admin only) */
 router.delete('/:teamId/players/:userId', authenticateJWT, ensureLoggedIn, isTeamAdmin, async (req, res) => {
     const { teamId, userId } = req.params;
 
@@ -255,12 +229,7 @@ router.delete('/:teamId/players/:userId', authenticateJWT, ensureLoggedIn, isTea
 });
 
 
-
-/**
- * @route GET /teams/:teamId/matches
- * @description Get all matches for a team
- * @access Private
- */
+/* Get all matches for a team */
 router.get('/:teamId/matches', authenticateJWT, ensureLoggedIn, async (req, res) => {
   const { teamId } = req.params;
   try {
@@ -278,11 +247,8 @@ router.get('/:teamId/matches', authenticateJWT, ensureLoggedIn, async (req, res)
   }
 });
 
-/**
- * @route GET /teams/admin/:userId
- * @description Get teams where the user is an admin
- * @access Private
- */
+
+/* Get teams where the user is an admin */
 router.get('/admin/:userId', authenticateJWT, ensureLoggedIn, async (req, res) => {
   const userId = req.params.userId;
 

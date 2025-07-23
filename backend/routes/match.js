@@ -11,11 +11,8 @@ const schemas = {
   MatchUpdate: require('../schemas/MatchUpdate.json')
 };
 
-/**
- * @route GET /leagues/:leagueId/matches
- * @description Get all matches for a league
- * @access Logged in users
- */
+
+/* Get all matches for a league */
 router.get('/', authenticateJWT, ensureLoggedIn, async (req, res) => {
   const { leagueId } = req.params;
   try {
@@ -41,11 +38,8 @@ router.get('/', authenticateJWT, ensureLoggedIn, async (req, res) => {
   }
 });
 
-/**
- * @route GET /leagues/:leagueId/matches/:matchId
- * @description Get match by ID
- * @access Logged in users
- */
+
+/* Get match by ID */
 router.get('/:matchId', authenticateJWT, ensureLoggedIn, async (req, res) => {
   const { leagueId, matchId } = req.params;
   try {
@@ -69,11 +63,8 @@ router.get('/:matchId', authenticateJWT, ensureLoggedIn, async (req, res) => {
   }
 });
 
-/**
- * @route POST /leagues/:leagueId/matches/create
- * @description Create a new match
- * @access League admins
- */
+
+/* Create a new match */
 router.post('/create', authenticateJWT, ensureLoggedIn, isLeagueAdmin, async (req, res) => {
   const { leagueId } = req.params;
   try {
@@ -105,11 +96,8 @@ router.post('/create', authenticateJWT, ensureLoggedIn, isLeagueAdmin, async (re
   }
 });
 
-/**
- * @route PUT /leagues/:leagueId/matches/:matchId
- * @description Update a match
- * @access League admins
- */
+
+/* Update a match */
 router.put('/:matchId', authenticateJWT, ensureLoggedIn, isLeagueAdmin, async (req, res) => {
   const { leagueId, matchId } = req.params;
   try {
@@ -132,11 +120,8 @@ router.put('/:matchId', authenticateJWT, ensureLoggedIn, isLeagueAdmin, async (r
   }
 });
 
-/**
- * @route DELETE /leagues/:leagueId/matches/:matchId
- * @description Delete a match
- * @access League admins
- */
+
+/* Delete a match */
 router.delete('/:matchId', authenticateJWT, ensureLoggedIn, isLeagueAdmin, async (req, res) => {
   const { leagueId, matchId } = req.params;
 

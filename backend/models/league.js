@@ -73,8 +73,6 @@ module.exports = (sequelize, DataTypes) => {
 
   /**
    * Get the standings for the league sorted by points in descending order.
-   * 
-   * @returns {Promise<Array>} - A promise that resolves to the sorted standings
    */
   League.prototype.getSortedStandings = async function() {
     return await this.getStandings({ order: [['points', 'DESC']] });
@@ -82,8 +80,6 @@ module.exports = (sequelize, DataTypes) => {
 
   /**
    * Get the number of teams in the league.
-   * 
-   * @returns {Promise<number>} - A promise that resolves to the number of teams
    */
   League.prototype.getNumberOfTeams = async function() {
     const teams = await this.getTeams();
@@ -92,9 +88,6 @@ module.exports = (sequelize, DataTypes) => {
 
   /**
    * Validate the given password against the hashed password stored in the database.
-   * 
-   * @param {string} password - The password to validate
-   * @returns {boolean} - True if the password is valid, false otherwise
    */
   League.prototype.validPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
@@ -102,11 +95,6 @@ module.exports = (sequelize, DataTypes) => {
 
   /**
    * Find all leagues that match the given search filters.
-   * 
-   * @param {Object} searchFilters - The search filters
-   * @param {string} [searchFilters.name] - The name filter
-   * @param {number} [searchFilters.maxTeams] - The maximum number of teams filter
-   * @returns {Promise<Array>} - A promise that resolves to the leagues that match the filters
    */
   League.findAllWithFilters = async function(searchFilters = {}) {
     const where = {};

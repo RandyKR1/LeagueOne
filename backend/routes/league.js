@@ -9,11 +9,7 @@ const schemas = {
   LeagueUpdate: require('../schemas/LeagueUpdate.json')
 };
 
-/**
- * @route GET /leagues
- * @description Get all leagues
- * @access Logged in users
- */
+/* get all leagues */
 router.get('/', authenticateJWT, ensureLoggedIn, async (req, res) => {
   try {
     const leagues = await League.findAll({
@@ -27,11 +23,8 @@ router.get('/', authenticateJWT, ensureLoggedIn, async (req, res) => {
   }
 });
 
-/**
- * @route GET /leagues/:id
- * @description Get league by ID
- * @access Logged in users
- */
+
+/* Get league by ID */
 router.get('/:id', async (req, res, next) => {
   try {
     const league = await League.findByPk(req.params.id, {
@@ -50,11 +43,8 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-/**
- * @route GET /leagues/standings
- * @description get team standings for league based on id
- * @access Logged in users
- */
+
+/* get team standings for league based on id */
 router.get('/:id/standings', async (req, res) => {
   const { id } = req.params;
   try {
@@ -69,11 +59,7 @@ router.get('/:id/standings', async (req, res) => {
   }
 });
 
-/**
- * @route POST /leagues/create
- * @description Create a new league and add currentUser as LeagueAdmin
- * @access Logged in users
- */
+/* Create a new league and add currentUser as LeagueAdmin */
 router.post('/create', authenticateJWT, ensureLoggedIn, async (req, res) => {
   try {
     validateSchema(req.body, schemas.LeagueNew);
@@ -105,11 +91,7 @@ router.post('/create', authenticateJWT, ensureLoggedIn, async (req, res) => {
 });
 
 
-/**
- * @route POST /leagues/:id/join
- * @description Team admin joins a league
- * @access Team admins
- */
+/* Team admin joins a league */
 router.post('/:id/join', authenticateJWT, ensureLoggedIn, isTeamAdminForLeagueJoin, async (req, res) => {
   const leagueId = req.params.id;
   const { teamId, password } = req.body;
@@ -162,11 +144,7 @@ router.post('/:id/join', authenticateJWT, ensureLoggedIn, isTeamAdminForLeagueJo
   }
 });
 
-/**
- * @route POST /leagues/:id/leave
- * @description Team admin leaves a league
- * @access Team admins
- */
+/* Team admin leaves a league */
 router.post('/:id/leave', authenticateJWT, ensureLoggedIn, async (req, res) => {
   const leagueId = req.params.id;
   const { teamId } = req.body;
@@ -202,12 +180,7 @@ router.post('/:id/leave', authenticateJWT, ensureLoggedIn, async (req, res) => {
 });
 
 
-
-/**
- * @route PUT /leagues/:id
- * @description Update a league
- * @access League admins
- */
+/* Update a league */
 router.put('/:id', authenticateJWT, ensureLoggedIn, isLeagueAdmin, async (req, res) => {
   try {
     validateSchema(req.body, schemas.LeagueUpdate);
@@ -223,11 +196,8 @@ router.put('/:id', authenticateJWT, ensureLoggedIn, isLeagueAdmin, async (req, r
   }
 });
 
-/**
- * @route DELETE /leagues/:id/teams/:teamId
- * @description Remove a team from a league (Admin action)
- * @access League admins
- */
+
+/* Remove a team from a league (Admin action) */
 router.delete('/:id/remove/:teamLeaguesId', authenticateJWT, ensureLoggedIn, isLeagueAdmin, async (req, res) => {
   const leagueId = req.params.id;
   const teamLeaguesId = req.params.teamLeaguesId;
@@ -261,11 +231,7 @@ router.delete('/:id/remove/:teamLeaguesId', authenticateJWT, ensureLoggedIn, isL
 });
 
 
-/**
- * @route DELETE /leagues/:id
- * @description Delete a league
- * @access League admins
- */
+/* Delete a league */
 router.delete('/:id', authenticateJWT, ensureLoggedIn, isLeagueAdmin, async (req, res) => {
   try {
     const league = await League.findByPk(req.params.id);
