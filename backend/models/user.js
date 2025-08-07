@@ -3,7 +3,6 @@ const { Op } = require('sequelize');
 const { UnauthorizedError } = require('../expressError');
 
 module.exports = (sequelize, DataTypes) => {
-  // Define the User model
   const User = sequelize.define('User', {
     id: {
       type: DataTypes.INTEGER,
@@ -65,26 +64,17 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  /**
-   * Validate the given password against the stored hashed password.
-   */
+  /*Validate the given password against the stored hashed password.*/
   User.prototype.validPassword = function (password) {
     return bcrypt.compareSync(password, this.password);
   };
 
-  /**
-   * Authenticate a user by their username and password.
-   */
+  /*Authenticate a user by their username and password.*/
   User.authenticate = async function (username, password) {
     const user = await User.findOne({ where: { username } });
 
-    if (!user) {
-      throw new UnauthorizedError("Invalid Username");
-    }
-
-    const isValid = await user.validPassword(password);
-    if (!isValid) {
-      throw new UnauthorizedError("Invalid Password");
+    if (!user || !(await user.validPassword(password))) {
+      throw new UnauthorizedError("Invalid username or password");
     }
 
     return {
@@ -97,6 +87,7 @@ module.exports = (sequelize, DataTypes) => {
       isTeamAdmin: user.isTeamAdmin,
     };
   };
+
 
 
   // Define associations

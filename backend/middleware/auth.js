@@ -2,12 +2,7 @@ const jwt = require('jsonwebtoken');
 const { User, League, Team } = require('../models');
 const { JWT_SECRET } = process.env; // Changed SECRET_KEY to JWT_SECRET
 
-/**
- * Middleware to authenticate JWT tokens
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @param {Function} next - Express next middleware function
- */
+/* Middleware to authenticate JWT tokens*/
 function authenticateJWT(req, res, next) {const jwt = require('jsonwebtoken');
 const { User, League, Team } = require('../models');
 const { JWT_SECRET } = process.env;

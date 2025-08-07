@@ -15,9 +15,10 @@ router.get('/', authenticateJWT, ensureLoggedIn, async (req, res) => {
   try {
     const teams = await Team.findAll({
       include: [
-        { model: User, as: 'players', attributes: ['id', 'firstName', 'lastName', 'username']  }, 
-        { model: User, as: 'admin', attributes: ['id', 'firstName', 'lastName', 'username']  },
-      ]});
+        { model: User, as: 'players', attributes: ['id', 'firstName', 'lastName', 'username'] },
+        { model: User, as: 'admin', attributes: ['id', 'firstName', 'lastName', 'username'] },
+      ]
+    });
     res.status(200).json(teams);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -32,8 +33,8 @@ router.get('/:id', authenticateJWT, ensureLoggedIn, async (req, res) => {
   try {
     const team = await Team.findByPk(teamId, {
       include: [
-        { model: User, as: 'players', attributes: ['id', 'firstName', 'lastName', 'username']  }, 
-        { model: User, as: 'admin', attributes: ['id', 'firstName', 'lastName', 'username']  },   
+        { model: User, as: 'players', attributes: ['id', 'firstName', 'lastName', 'username'] },
+        { model: User, as: 'admin', attributes: ['id', 'firstName', 'lastName', 'username'] },
         { model: League, as: 'leagues', attributes: ['id', 'name'] }
       ],
     });
@@ -128,34 +129,55 @@ router.post('/:id/join', authenticateJWT, ensureLoggedIn, async (req, res) => {
 /* Leave a team */
 router.post('/:id/leave', authenticateJWT, ensureLoggedIn, async (req, res) => {
   const teamId = req.params.id;
-  const userId = req.user.id; // Get the ID of the logged-in user
+  const userId = req.user.id;
+  const { newAdminId } = req.body;
 
   try {
-      const team = await Team.findByPk(teamId);
-      if (!team) {
-          return res.status(404).json({ error: 'Team not found' });
+    const team = await Team.findByPk(teamId);
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found' });
+    }
+
+    // Check if user is a player in the team
+    const isPlayer = await team.hasPlayer(userId);
+    if (!isPlayer) {
+      return res.status(400).json({ error: 'User is not a member of the team' });
+    }
+
+    //If the user is the admin, need to replace
+    if (team.adminId === userId) {
+      if (!newAdminId) {
+        return res.status(400).json({
+          error: 'This user is the Admin of this Team. Please select a new Admin before leaving.'
+        });
+      }
+      
+      const newAdminIdNum = Number(newAdminId); // Convert string to number
+      
+      const isNewAdminPlayer = await team.hasPlayer(newAdminIdNum);
+      if (!isNewAdminPlayer) {
+        return res.status(400).json({
+          error: 'Selected new admin is not a member of the team.'
+        });
       }
 
-      // Check if user is a player in the team
-      const isPlayer = await team.hasPlayer(userId);
-      if (!isPlayer) {
-          return res.status(400).json({ error: 'User is not a member of the team' });
-      }
+      team.adminId = newAdminId;
+      await team.save();
+    }
 
-      // Remove user from the team
-      await TeamPlayers.destroy({ where: { teamId, userId } });
+    // Remove user from the team
+    await TeamPlayers.destroy({ where: { teamId, userId } });
 
-      // Fetch the updated team data
-      const updatedTeam = await Team.findByPk(teamId, {
-          include: [{ model: User, as: 'players' }]
-      });
+    // Fetch the updated team data
+    const updatedTeam = await Team.findByPk(teamId, {
+      include: [{ model: User, as: 'players' }]
+    });
 
-      res.json({ message: 'Left the team successfully', team: updatedTeam });
+    res.json({ message: 'Left the team successfully', team: updatedTeam });
   } catch (error) {
-      res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
-
 
 /* Update a team */
 router.put('/:id', authenticateJWT, ensureLoggedIn, isTeamAdmin, async (req, res) => {
@@ -176,7 +198,7 @@ router.put('/:id', authenticateJWT, ensureLoggedIn, isTeamAdmin, async (req, res
 router.delete('/:id', authenticateJWT, ensureLoggedIn, isTeamAdmin, async (req, res) => {
   const teamId = req.params.id;
   const transaction = await sequelize.transaction();
-  
+
   try {
     const team = await Team.findByPk(teamId, { transaction });
     if (!team) {
@@ -199,33 +221,33 @@ router.delete('/:id', authenticateJWT, ensureLoggedIn, isTeamAdmin, async (req, 
 
 /* Remove a player from a team (admin only) */
 router.delete('/:teamId/players/:userId', authenticateJWT, ensureLoggedIn, isTeamAdmin, async (req, res) => {
-    const { teamId, userId } = req.params;
+  const { teamId, userId } = req.params;
 
-    try {
-        const team = await Team.findByPk(teamId, {
-            include: [
-                { model: User, as: 'players', where: { id: userId } } // Check if the user is a player
-            ]
-        });
+  try {
+    const team = await Team.findByPk(teamId, {
+      include: [
+        { model: User, as: 'players', where: { id: userId } } // Check if the user is a player
+      ]
+    });
 
-        if (!team) {
-            return res.status(404).json({ error: 'Team not found' });
-        }
-
-        // Check if user is a player in the team
-        if (team.players.length === 0) {
-            return res.status(400).json({ error: 'User is not a member of the team' });
-        }
-
-        // Remove the player from the team
-        await TeamPlayers.destroy({ where: { teamId, userId } });
-
-        // Respond with success message
-        res.status(200).json({ message: 'Player removed successfully' });
-    } catch (error) {
-        console.error("Error removing player:", error);
-        res.status(500).json({ error: 'Failed to remove player' });
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found' });
     }
+
+    // Check if user is a player in the team
+    if (team.players.length === 0) {
+      return res.status(400).json({ error: 'User is not a member of the team' });
+    }
+
+    // Remove the player from the team
+    await TeamPlayers.destroy({ where: { teamId, userId } });
+
+    // Respond with success message
+    res.status(200).json({ message: 'Player removed successfully' });
+  } catch (error) {
+    console.error("Error removing player:", error);
+    res.status(500).json({ error: 'Failed to remove player' });
+  }
 });
 
 

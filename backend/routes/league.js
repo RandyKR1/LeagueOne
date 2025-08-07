@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { League, Team, User, Match , Standing, TeamLeagues} = require('../models');
+const { League, Team, User, Match, Standing, TeamLeagues } = require('../models');
 const { validateSchema } = require('../middleware/validateSchema');
 const { authenticateJWT, ensureLoggedIn, isLeagueAdmin, isTeamAdminForLeagueJoin } = require('../middleware/auth');
 
@@ -15,7 +15,8 @@ router.get('/', authenticateJWT, ensureLoggedIn, async (req, res) => {
     const leagues = await League.findAll({
       include: [
         { model: User, as: 'admin', attributes: ['firstName', 'lastName', 'username'] },
-      ]}
+      ]
+    }
     );
     res.status(200).json(leagues);
   } catch (error) {
@@ -31,7 +32,7 @@ router.get('/:id', async (req, res, next) => {
       include: [
         { model: User, as: 'admin', attributes: ['id', 'firstName', 'lastName', 'username'] },
         { model: Match, as: 'matches' },
-        { model: Team, as: 'teams'}
+        { model: Team, as: 'teams' }
       ]
     });
     if (!league) {
@@ -49,7 +50,7 @@ router.get('/:id/standings', async (req, res) => {
   const { id } = req.params;
   try {
     const standings = await Standing.findAll({
-      where: { leagueId: id }, 
+      where: { leagueId: id },
       include: [{ model: Team, as: 'team' }], // Ensure this matches your model associations
     });
     res.json(standings);

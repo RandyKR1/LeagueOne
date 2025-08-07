@@ -10,7 +10,7 @@ class LeagueOneApi {
     console.log(`API Request: ${method.toUpperCase()} ${endpoint}`);
     console.log(`API Request Data: `, data);
     const url = `${BASE_URL}/${endpoint}`;
-    
+
     // Added Authorization header with Bearer token
     const headers = {
       Authorization: `Bearer ${LeagueOneApi.token}`,
@@ -43,8 +43,8 @@ class LeagueOneApi {
       throw error;
     }
   }
-  
-  
+
+
   static async loginUser(data) {
     let res = await this.request(`auth/token`, data, "post");
     return res.token;
@@ -57,11 +57,11 @@ class LeagueOneApi {
     return res;
   }
 
-  static async getStandingsByLeagueId(id){
+  static async getStandingsByLeagueId(id) {
     let res = await this.request(`leagues/${id}/standings`)
     return res;
   }
-  
+
   static async getLeagueById(id) {
     let res = await this.request(`leagues/${id}`);
     return res;
@@ -95,7 +95,7 @@ class LeagueOneApi {
   static async removeTeamFromLeague(leagueId, teamLeaguesId) {
     let res = await this.request(`leagues/${leagueId}/remove/${teamLeaguesId}`, {}, 'delete');
     return res;
-}
+  }
 
 
 
@@ -108,12 +108,12 @@ class LeagueOneApi {
   static async getMatch(leagueId, matchId) {
     let res = await this.request(`leagues/${leagueId}/matches/${matchId}`);
     return res;
-}
+  }
 
   static async createMatch(leagueId, data) {
     let res = await this.request(`leagues/${leagueId}/matches/create`, data, 'post');
     return res;
-}
+  }
 
   static async updateMatch(leagueId, matchId, data) {
     let res = await this.request(`leagues/${leagueId}/matches/${matchId}`, data, 'put');
@@ -157,9 +157,10 @@ class LeagueOneApi {
     return res;
   }
 
-  static async leaveTeam(teamId) {
-    let res = await this.request(`teams/${teamId}/leave`, {} , "post");
-    return res.data; 
+  static async leaveTeam(teamId, newAdminId = null) {
+    const body = newAdminId ? { newAdminId } : {};
+    const res = await this.request(`teams/${teamId}/leave`, body, "post");
+    return res.data;
   }
 
   static async removePlayerFromTeam(teamId, playerId) {
