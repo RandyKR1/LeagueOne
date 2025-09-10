@@ -1,8 +1,7 @@
-const bcrypt = require('bcrypt');  // Import bcrypt for hashing passwords
-const { Op } = require('sequelize');  // Import Sequelize operators
+const bcrypt = require('bcrypt');
+const { Op } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  // Define the League model
   const League = sequelize.define('League', {
     id: {
       type: DataTypes.INTEGER,
@@ -16,18 +15,21 @@ module.exports = (sequelize, DataTypes) => {
     password: {
       type: DataTypes.STRING,
       allowNull: true,
-      validate: {
-        len: [8, 100],
-      },
+      validate: { len: [8, 100] },
     },
     maxTeams: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    leagueType: {
+      type: DataTypes.ENUM('TEAM_BASED', 'RACE_BASED'),
+      allowNull: false,
+      defaultValue: 'TEAM_BASED',
+    },
     competition: {
       type: DataTypes.ENUM(
         'Soccer', 'Football', 'Hockey', 'Basketball',
-        'Tennis', 'Golf', 'Baseball', 'Other'
+        'Tennis', 'Golf', 'Baseball', 'Motorsport', 'Other'
       ),
       allowNull: false,
     },
@@ -39,22 +41,21 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Users',  // Reference to the Users model
+        model: 'Users',
         key: 'id',
       },
     },
-    firstPlacePoints: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    secondPlacePoints: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    drawPoints: {
-      type: DataTypes.INTEGER,
-      allowNull: true 
-    }
+
+    // Team Based Field
+    firstPlacePoints: { type: DataTypes.INTEGER, allowNull: false },
+    secondPlacePoints: { type: DataTypes.INTEGER, allowNull: true },
+    drawPoints: { type: DataTypes.INTEGER, allowNull: true },
+
+    // Race Based Fields
+    maxDriversPerTeam: { type: DataTypes.INTEGER, defaultValue: 2 },
+    scoringSystem: { type: DataTypes.JSON },
+
+
   }, {
     tableName: 'Leagues',
     hooks: {
@@ -68,6 +69,14 @@ module.exports = (sequelize, DataTypes) => {
           league.password = await bcrypt.hash(league.password, 10);
         }
       },
+      beforeSave: (league) => {
+        if (league.leagueType === 'TEAM_BASED' && !league.firstPlacePoints) {
+          throw new Error("TEAM_BASED leagues require firstPlacePoints");
+        }
+        if (league.leagueType === 'RACE_BASED' && !league.scoringSystem) {
+          throw new Error("RACE_BASED leagues require a scoringSystem");
+        }
+      },
     }
 
   });
@@ -78,6 +87,7 @@ module.exports = (sequelize, DataTypes) => {
     League.belongsToMany(models.Team, { through: 'TeamLeagues', as: 'teams', foreignKey: 'leagueId', onDelete: 'CASCADE' });
     League.hasMany(models.Match, { as: 'matches', foreignKey: 'leagueId', onDelete: 'CASCADE' });
     League.hasMany(models.Standing, { as: 'standings', foreignKey: 'leagueId', onDelete: 'CASCADE' });
+    League.hasMany(models.Race, { as: 'races', foreignKey: 'leagueId', onDelete: 'CASCADE' });
   };
 
   /**
@@ -98,8 +108,8 @@ module.exports = (sequelize, DataTypes) => {
   /**
    * Validate the given password against the hashed password stored in the database.
    */
-  League.prototype.validPassword = function (password) {
-    return bcrypt.compareSync(password, this.password);
+  League.prototype.validPassword = async function (password) {
+    return await bcrypt.compare(password, this.password);
   };
 
   /**
@@ -107,9 +117,8 @@ module.exports = (sequelize, DataTypes) => {
    */
   League.findAllWithFilters = async function (searchFilters = {}) {
     const where = {};
-
     const { name, maxTeams } = searchFilters;
-
+    
     if (name) {
       where.name = { [Op.iLike]: `%${name}%` };
     }

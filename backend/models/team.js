@@ -38,14 +38,12 @@ module.exports = (sequelize, DataTypes) => {
     hooks: {
       beforeCreate: async (team) => {
         if (team.password) {
-          const hashedPassword = await bcrypt.hash(team.password, 10);
-          team.password = hashedPassword;
+          team.password = await bcrypt.hash(team.password, 10);
         }
       },
       beforeUpdate: async (team) => {
         if (team.changed('password')) {
-          const hashedPassword = await bcrypt.hash(team.password, 10);
-          team.password = hashedPassword;
+          team.password = await bcrypt.hash(team.password, 10);
         }
       },
     },
@@ -61,11 +59,22 @@ module.exports = (sequelize, DataTypes) => {
   // Define associations
   Team.associate = (models) => {
     Team.belongsTo(models.User, { as: 'admin', foreignKey: 'adminId', onDelete: 'SET NULL' });
+
+    // Users <-> Teams (players on a team)
     Team.belongsToMany(models.User, { through: 'TeamPlayers', as: 'players', foreignKey: 'teamId', onDelete: 'CASCADE' });
+
+    // Leagues <-> Teams
     Team.belongsToMany(models.League, { through: 'TeamLeagues', as: 'leagues', foreignKey: 'teamId', onDelete: 'CASCADE' });
+
+    // TEAM_BASED matches
     Team.hasMany(models.Match, { as: 'matches1', foreignKey: 'team1', onDelete: 'SET NULL' });
     Team.hasMany(models.Match, { as: 'matches2', foreignKey: 'team2', onDelete: 'SET NULL' });
+
+    // Standings
     Team.hasMany(models.Standing, { as: 'standings', foreignKey: 'teamId', onDelete: 'CASCADE' });
+
+    // RACE_BASED drivers
+    Team.hasMany(models.Driver, { as: 'drivers', foreignKey: 'teamId', onDelete: 'CASCADE' });
   };
 
   /**
