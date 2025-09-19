@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://our.league.com/driverNew.schema.json",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50
+    },
+    "teamId": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The ID of the team this driver belongs to. Optional if AI."
+    },
+    "isAI": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "additionalProperties": false,
+  "required": ["name"]
+}
