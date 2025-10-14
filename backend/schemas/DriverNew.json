@@ -13,11 +13,21 @@
       "minimum": 1,
       "description": "The ID of the team this driver belongs to. Optional if AI."
     },
+    "leagueId": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The ID of the league this driver belongs to."
+    },
+    "userId": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The ID of the user controlling the driver. Optional for AI."
+    },
     "isAI": {
       "type": "boolean",
       "default": false
     }
   },
   "additionalProperties": false,
-  "required": ["name"]
+  "required": ["name", "leagueId"]
 }
