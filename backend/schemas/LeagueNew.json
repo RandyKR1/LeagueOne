@@ -71,8 +71,6 @@
     "name",
     "firstPlacePoints",
     "competition",
-    "leagueType",
-    "maxDriversPerTeam",
-    "scoringSystem"
+    "leagueType"
   ]
 }
