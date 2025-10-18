@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://our.league.com/raceResultNew.schema.json",
+  "type": "object",
+  "properties": {
+    "raceId": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "driverId": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "position": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["DNF", "DNS", "CLASSIFIED"],
+      "default": "CLASSIFIED"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["raceId", "driverId", "status"]
+}

@@ -51,4 +51,6 @@ module.exports = (sequelize, DataTypes) => {
                 onDelete: 'CASCADE',
             });
     }
-}
+
+    return Race;
+};

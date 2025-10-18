@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://our.league.com/driverStandingUpdate.schema.json",
+  "type": "object",
+  "properties": {
+    "points": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "position": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "wins": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "podiums": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "racesCompleted": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false
+}
