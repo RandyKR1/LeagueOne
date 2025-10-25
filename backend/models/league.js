@@ -88,6 +88,9 @@ module.exports = (sequelize, DataTypes) => {
     League.hasMany(models.Match, { as: 'matches', foreignKey: 'leagueId', onDelete: 'CASCADE' });
     League.hasMany(models.Standing, { as: 'standings', foreignKey: 'leagueId', onDelete: 'CASCADE' });
     League.hasMany(models.Race, { as: 'races', foreignKey: 'leagueId', onDelete: 'CASCADE' });
+    League.hasMany(models.Driver, { as: 'drivers', foreignKey: 'leagueId', onDelete: 'CASCADE'});
+    League.hasMany(models.DriverStanding, { as: 'driverStandings', foreignKey: 'leagueId', onDelete: 'CASCADE'});
+
   };
 
   /**
@@ -118,7 +121,7 @@ module.exports = (sequelize, DataTypes) => {
   League.findAllWithFilters = async function (searchFilters = {}) {
     const where = {};
     const { name, maxTeams } = searchFilters;
-    
+
     if (name) {
       where.name = { [Op.iLike]: `%${name}%` };
     }

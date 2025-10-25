@@ -95,6 +95,7 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Team, { as: 'administeredTeams', foreignKey: 'adminId', onDelete: 'CASCADE' });
     User.belongsToMany(models.Team, { through: 'TeamPlayers', as: 'teams', foreignKey: 'userId', onDelete: 'CASCADE' });
     User.hasMany(models.League, { as: 'administeredLeagues', foreignKey: 'adminId', onDelete: 'CASCADE' });
+    User.hasMany(models.Driver, { as: 'drivers', foreignKey: 'userId', onDelete: 'SET NULL'});
   };
 
   /**
