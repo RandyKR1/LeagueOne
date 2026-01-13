@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-const { RaceResult, Race, Driver, DriverStanding, TeamStanding, League, Team } = require('../models');
+const { RaceResult, Race, Driver, League } = require('../models');
 const { validateSchema } = require('../middleware/validateSchema');
 const { authenticateJWT, ensureLoggedIn, isLeagueAdmin } = require('../middleware/auth');
 const { calculatePoints, updateStandings } = require('../helpers/points');
@@ -34,7 +34,7 @@ router.post('/create', authenticateJWT, ensureLoggedIn, isLeagueAdmin, async (re
     const driver = await Driver.findByPk(req.body.driverId);
     if (!driver) return res.status(404).json({ error: 'Driver not found' });
 
-    const points = calculatePoints(driver.leagueId, req.body.position, req.body.status);
+    const points = calculatePoints(race.league.scoringSystem, req.body.position, req.body.status);
 
     const result = await RaceResult.create({
       raceId,
@@ -59,11 +59,13 @@ router.patch('/:resultId', authenticateJWT, ensureLoggedIn, isLeagueAdmin, async
   try {
     validateSchema(req.body, schemas.RaceResultUpdate);
 
-    const result = await RaceResult.findOne({ where: { id: resultId, raceId } });
-    if (!result) return res.status(404).json({ error: 'Result not found' });
+    const result = await RaceResult.findOne({
+      where: { id: resultId, raceId },
+      include: [{ model: Race, as: 'race' }]
+    });
 
     await result.update(req.body);
-    await updateStandings(result.driverId, raceId);
+    await updateStandings(result.race.leagueId, result.driverId);
 
     res.json(result);
   } catch (error) {
@@ -76,11 +78,13 @@ router.patch('/:resultId', authenticateJWT, ensureLoggedIn, isLeagueAdmin, async
 router.delete('/:resultId', authenticateJWT, ensureLoggedIn, isLeagueAdmin, async (req, res) => {
   const { raceId, resultId } = req.params;
   try {
-    const result = await RaceResult.findOne({ where: { id: resultId, raceId } });
-    if (!result) return res.status(404).json({ error: 'Result not found' });
+    const result = await RaceResult.findOne({
+      where: { id: resultId, raceId },
+      include: [{ model: Race, as: 'race' }]
+    });
 
     await result.destroy();
-    await updateStandings(result.driverId, raceId);
+    await updateStandings(result.race.leagueId, result.driverId);
 
     res.status(204).send();
   } catch (error) {

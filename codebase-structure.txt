@@ -2,44 +2,75 @@
 ├── backend
 │   ├── README.md
 │   ├── app.js
+│   ├── backendNotes.md
 │   ├── config
 │   │   ├── config.js
 │   │   ├── db.js
+│   │   ├── dbUtils.js
 │   │   └── loadEnv.js
 │   ├── expressError.js
 │   ├── helpers
+│   │   ├── points.js
 │   │   ├── tokens.js
 │   │   └── updateStandings.js
 │   ├── jest.config.js
 │   ├── middleware
 │   │   ├── auth.js
 │   │   └── validateSchema.js
+│   ├── migrations
+│   │   ├── 20250715213534-create-users.js
+│   │   ├── 20250715214452-create-matchleagues.js
+│   │   ├── 20250715220242-create-matchteams.js
+│   │   ├── 20250715220546-create-teamleagues.js
+│   │   ├── 20250715220653-create-teamplayers.js
+│   │   ├── 20250715221207-create-leagues.js
+│   │   ├── 20250715221316-create-match.js
+│   │   ├── 20250715221428-create-standings.js
+│   │   ├── 20250715221543-create-teams.js
+│   │   ├── 20251025171454-create-drivers.js
+│   │   ├── 20251025171506-create-races.js
+│   │   ├── 20251025171519-create-race-results.js
+│   │   └── 20251025171535-create-driver-standings.js
 │   ├── models
+│   │   ├── DriverStanding.js
 │   │   ├── MatchLeague.js
 │   │   ├── MatchTeams.js
+│   │   ├── RaceResult.js
 │   │   ├── TeamLeagues.js
 │   │   ├── TeamPlayers.js
+│   │   ├── driver.js
 │   │   ├── index.js
 │   │   ├── league.js
 │   │   ├── match.js
+│   │   ├── race.js
 │   │   ├── standings.js
 │   │   ├── team.js
 │   │   └── user.js
-│   ├── package-lock.json
-│   ├── package.json
 │   ├── routes
 │   │   ├── auth.js
+│   │   ├── driverStandings.js
+│   │   ├── drivers.js
 │   │   ├── league.js
 │   │   ├── match.js
+│   │   ├── raceResult.js
+│   │   ├── races.js
 │   │   ├── team.js
 │   │   └── user.js
 │   ├── schemas
+│   │   ├── DriverNew.json
+│   │   ├── DriverStandingNew.json
+│   │   ├── DriverStandingUpdate.json
+│   │   ├── DriverUpdate.json
 │   │   ├── LeagueNew.json
 │   │   ├── LeagueSearch.json
 │   │   ├── LeagueUpdate.json
 │   │   ├── MatchNew.json
 │   │   ├── MatchSearch.json
 │   │   ├── MatchUpdate.json
+│   │   ├── RaceNew.json
+│   │   ├── RaceResultNew.json
+│   │   ├── RaceResultUpdate.json
+│   │   ├── RaceUpdate.json
 │   │   ├── SearchUser.json
 │   │   ├── TeamNew.json
 │   │   ├── TeamSearch.json
@@ -49,8 +80,21 @@
 │   │   ├── UserRegister.json
 │   │   ├── UserSearch.json
 │   │   └── UserUpdate.json
-│   ├── seeds
-│   │   └── seed.js
+│   ├── seeders
+│   │   ├── 20260108211538-seed-users.js
+│   │   ├── 20260108213145-seed-teams.js
+│   │   ├── 20260108213858-seed-team-players.js
+│   │   ├── 20260108215535-seed-leagues.js
+│   │   ├── 20260108223729-seed-team-leagues.js
+│   │   ├── 20260108230158-seed-matches.js
+│   │   ├── 20260108232050-seed-races.js
+│   │   ├── 20260108232840-seed-race-results.js
+│   │   ├── 20260108233248-seed-drivers.js
+│   │   ├── 20260108235054-seed-driver-standings.js
+│   │   ├── 20260109002442-seed-standings.js
+│   │   ├── 20260109002658-seed-match-league.js
+│   │   ├── 20260109003300-seed-match-teams.js
+│   │   └── 20260109003820-seed-master-seed.js
 │   ├── server.js
 │   ├── test
 │   │   ├── auth-route.test.js
@@ -70,9 +114,8 @@
 │   ├── README.md
 │   ├── babel.config.json
 │   ├── index.html
-│   ├── package-lock.json
-│   ├── package.json
 │   ├── src
+│   │   ├── AdminReassignModal.js
 │   │   ├── App.css
 │   │   ├── App.jsx
 │   │   ├── Auth
@@ -137,21 +180,8 @@
 │   │   ├── main.jsx
 │   │   └── setupTests.js
 │   └── vite.config.js
-├── migrations
-│   ├── 20250715213534-create-users.js
-│   ├── 20250715214452-create-matchleagues.js
-│   ├── 20250715220242-create-matchteams.js
-│   ├── 20250715220546-create-teamleagues.js
-│   ├── 20250715220653-create-teamplayers.js
-│   ├── 20250715221207-create-leagues.js
-│   ├── 20250715221316-create-match.js
-│   ├── 20250715221428-create-standings.js
-│   └── 20250715221543-create-teams.js
 ├── models
 │   └── index.js
-├── notes.md
-├── package-lock.json
-├── package.json
-└── seeders
+└── notes.md
 
-25 directories, 129 files
+24 directories, 160 files
